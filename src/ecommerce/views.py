@@ -37,6 +37,7 @@ def contact_page(request):
 def login_page(request):
     form = LoginForm(request.POST or None)
     context={
+        "title":"Login",
         "form":form
     }
     print("User logged in")
@@ -62,6 +63,7 @@ User = get_user_model()
 def register_page(request):
     form = RegisterForm(request.POST or None)
     context={
+        "title":"Register",
         "form":form
     }
     if form.is_valid():

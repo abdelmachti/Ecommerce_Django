@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mr-auto ml-auto px-5">
             <h1>{{object.title |upper}}</h1>
             {{object.timestamp | timesince}} ago </br>
             {{object.description}}</br>
@@ -16,4 +16,11 @@
     </div>
 </div>
 
+<!-- <div class="container">
+    <div class="row">
+        <div class='col-12'>
+            {% include 'products/snippets/card.html' with instance=object %}
+        </div>
+    </div>
+</div> -->
 {% endblock %}
