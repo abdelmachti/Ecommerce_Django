@@ -11,19 +11,7 @@
             <!-- Forloop -->
             {{ forloop.counter }}
             {% include 'products/snippets/card.html' with instance=obj %}
-            <!--  <a href='{{obj.get_absolute_url}}'>{{obj.title}}</a></br>-->
-            <!-- cycle -->
-            <!--  {% cycle '<h1>Hehoe  i am here</h1>' '' ''%}-->
-        
-        <!-- {%  if forloop.counter|divisibleby:2 %}
-        </div>
-        </div>
-        <div class="row">
-            <div class="col"></div>
-        </div>
-        {% else %}
-        </div>
-        {% endif %} -->
+           
         </div>
         
         {% endfor %}

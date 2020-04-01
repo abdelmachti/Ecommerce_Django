@@ -41,7 +41,7 @@ class ProductManager(models.Manager):
         return ProductQuerySet(self.model, using=self._db)
 
     def all(self):
-        print(self.get_queryset().active())
+        #print(self.get_queryset().active())
         return self.get_queryset().active()
 
     def featured(self):
@@ -67,6 +67,8 @@ class Product(models.Model):
     featured    = models.BooleanField(default=False)
     active      = models.BooleanField(default=True)
     timestamp   = models.DateTimeField(auto_now_add=True)
+    #quantity    = models.(default=1, max_digits=10000, decimal_places=0)
+    #stock       = models.DecimalField(default=10, max_digits=10000, decimal_places=0)
     objects= ProductManager()
     #print(objects__str__)
     def get_absolute_url(self):
@@ -80,6 +82,10 @@ class Product(models.Model):
         return self.title
     """
     
+    @property
+    def name(self):
+        return self.title
+        
 
 def product_pre_save_receiver(sender, instance, *args,**kwargs):
     if not instance.slug:

@@ -20,8 +20,12 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
-from carts.views import cart_home
-from .views import home_page, about_page, contact_page , login_page, register_page
+
+from .views import (home_page, 
+                    about_page, 
+                    contact_page , 
+                    login_page, 
+                    register_page)
 """ from products.views import ( ProductListView, 
                              Product_list_view, 
                              ProductDetailView,
@@ -38,6 +42,7 @@ urlpatterns = [
     url(r'^register/$', register_page, name="register"),
     url(r'^bootstrap/$', TemplateView.as_view(template_name="bootstrap/justExample.html")),
     url(r'^products/', include(("products.urls", 'products'), namespace='products')),
+    url(r'^cart/', include(("carts.urls", 'cart'), namespace='cart')),
     url(r'^search/', include(("search.urls", 'search'), namespace='search')),
     #url(r'^featured/$', ProductFeaturedListView.as_view()),
     #url(r'^featured/(?P<pk>\d+)/$', ProductFeaturedDetailView.as_view()),

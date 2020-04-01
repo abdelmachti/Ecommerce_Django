@@ -8,19 +8,13 @@
             {{object.timestamp | timesince}} ago </br>
             {{object.description}}</br>
             {{object.price}}</br>
-            <!-- {{object.image}} -->
+            {{object.quantity}}
             {% if object.image %}
             <img src='{{object.image.url}}'  class="img-fluid"/>
             {% endif %}
         </div>
-    </div>
-
-
-<!-- <div class="container">
-    <div class="row">
-        <div class='col-12'>
-            {% include 'products/snippets/card.html' with instance=object %}
+        <div>
+            {% include 'products/snippets/update-cart.html' with product=object cart=cart in_cart=False %}
         </div>
     </div>
-</div> -->
 {% endblock %}
