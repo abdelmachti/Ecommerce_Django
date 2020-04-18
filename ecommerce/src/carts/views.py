@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from django.http import JsonResponse
 from orders.models import Order
 from .models import Cart
 from accounts.forms import LoginForm , GuestForm
@@ -9,6 +9,21 @@ from accounts.models import GuestEmail
 from products.models import Product
 from billing.models import BillingProfile
 # Create your views here.
+
+def cart_detail_api_view(request):
+    cart_obj , new_obj = Cart.objects.new_or_get(request)
+    products = [{
+            "id":x.id,
+            "url": x.get_absolute_url(),
+            "name" :x.name ,
+            "price": x.price} 
+            for x in cart_obj.products.all()]
+    """ jsonlist = list
+    for x in cart_obj.products.all():
+        data = {"name":x.name, "price":x.price}
+        jsonlist.append(data) """
+    cart_data = {"products": products, "subtotal":cart_obj.subtotal, "total": cart_obj.total}
+    return  JsonResponse(cart_data)
 
 def cart_create(user=None):
     cart_obj= Cart.objects.create(user=None)
@@ -46,6 +61,7 @@ def cart_home(request):
 def cart_update(request):
     #print("request",request.POST.get("product_id"))
     product_id= request.POST.get("product_id")
+    
     if product_id is not None:
         try:
             product_obj= Product.objects.get(id=product_id)
@@ -55,9 +71,22 @@ def cart_update(request):
         cart_obj, new_obj= Cart.objects.new_or_get(request)
         if product_obj in cart_obj.products.all():
             cart_obj.products.remove(product_obj)
+            added= False
         else:
             cart_obj.products.add(product_obj)
+            added=True
         request.session['cart_items']=cart_obj.products.count()
+        if request.is_ajax():
+            #print("Ajax request")
+            json_data = {
+                "added": added,
+                "removed": not added,
+                "cartItemCount": cart_obj.products.count()
+            }
+            return JsonResponse(json_data, status= 200) # status = 400 bad request etc 
+           # return JsonResponse({"message":"Error 400"}, status = 400)
+    else:
+        redirect ("cart:home")
     return redirect ("cart:home")
 
 def checkout_home(request):
@@ -70,7 +99,7 @@ def checkout_home(request):
     guest_form = GuestForm()
     address_form = AddressForm()
     billing_profile , billing_profile_created = BillingProfile.objects.new_or_get(request)
-    print(billing_profile)
+    #print(billing_profile)
     shipping_address_id = request.session.get('shipping_address_id', None)
     billing_address_id  = request.session.get('billing_address_id', None)
 
