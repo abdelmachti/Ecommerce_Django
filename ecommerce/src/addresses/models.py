@@ -16,7 +16,7 @@ class Address(models.Model):
     city            = models.CharField(max_length=120)
     state           = models.CharField(max_length=120, default='Hamburg')
     country         = models.CharField(max_length=120, default='Germany')
-    postal_code     = models.IntegerField(max_length=10)
+    postal_code     = models.CharField(max_length=120)
 
     def __str__(self):
         return str(self.billing_profile)
