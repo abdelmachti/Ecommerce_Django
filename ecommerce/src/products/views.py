@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView
 
 from .models import Product
 from carts.models import Cart
+#from analytics.signals import object_viewed_signal
+from analytics.mixins import ObejctViewedMixin
 # Create your views here.
 
 class ProductFeaturedListView(ListView):
@@ -13,10 +15,11 @@ class ProductFeaturedListView(ListView):
         #request = self.request
         return Product.objects.all().featured()
 
-class ProductFeaturedDetailView(DetailView):
+class ProductFeaturedDetailView(ObejctViewedMixin, DetailView):
     queryset = Product.objects.all().featured()
     template_name="products/featuredDetail.html"
 
+    # get_object()
     """ def get_queryset(self, *args, **kwargs):
         #request = self.request
         return Product.objects.all().featured() """
@@ -48,7 +51,7 @@ def Product_list_view(request):
     }
     return render(request,"products/list.html",context)
 
-class ProductDetailSlugView(DetailView):
+class ProductDetailSlugView(ObejctViewedMixin, DetailView):
     queryset=Product.objects.all()
     template_name="products/detail.html"
 
@@ -61,6 +64,7 @@ class ProductDetailSlugView(DetailView):
     def get_object(self, *args, **kwargs):
         request= self.request
         slug =self.kwargs.get('slug')
+        
         try:
             instance = Product.objects.get(slug=slug)
         except Product.DoesNotExist:
@@ -69,9 +73,12 @@ class ProductDetailSlugView(DetailView):
             qs= Product.objects.filter(slug=slug, active=True)
             if qs.count() != 1:
                 instance = qs.first()
+        except:
+            raise Http404("Ualala")
+        # object_viewed_signal.send(instance.__class__, instance=instance, request=request)
         return instance
 
-class ProductDetailView(DetailView):
+class ProductDetailView(ObejctViewedMixin, DetailView):
     #queryset = Product.objects.all()
     template_name= "products/detail.html"
 
