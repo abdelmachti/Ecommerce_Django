@@ -22,6 +22,7 @@ from django.contrib.auth.views import LogoutView
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
 from carts.views import cart_detail_api_view
+from billing.views import  payment_method_view, payment_method_createview
 from accounts.views import (#login_page,
                              #register_page, 
                              LoginView,
@@ -58,6 +59,8 @@ urlpatterns = [
     url(r'^bootstrap/$', TemplateView.as_view(template_name="bootstrap/justExample.html")),
     url(r'^products/', include(("products.urls", 'products'), namespace='products')),
     url(r'^cart/', include(("carts.urls", 'cart'), namespace='cart')),
+    url(r'^billing/payment-method/$', payment_method_view, name="billing-payment-method"),
+    url(r'^billing/payment-method/create/$', payment_method_createview, name="billing-payment-method-endpoint"),
     url(r'^search/', include(("search.urls", 'search'), namespace='search')),
     #url(r'^featured/$', ProductFeaturedListView.as_view()),
     #url(r'^featured/(?P<pk>\d+)/$', ProductFeaturedDetailView.as_view()),

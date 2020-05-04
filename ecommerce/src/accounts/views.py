@@ -44,7 +44,7 @@ class LoginView(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
         user = authenticate(request, username=email, password=password)
-        print(user)
+        #print("user",user)
         if user is not None:
             login(request, user)
             user_logged_in.send(user.__class__, instance=user, request=request)
