@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'analytics',
     'billing',
     'carts',
+    'marketing',
     'orders',
     'products',
     'search',
@@ -55,8 +56,13 @@ AUTH_USER_MODEL = 'accounts.User' # Change the built-in user model to ours
 FORCE_SESSION_TO_ONE           = False
 FORCE_INACTIVE_USER_ENDSESSION = False
 
+MAILCHIMP_API_KEY       = "f8ec7366e4a743cd2d148ae377a9c64e-us8"
+MAILCHIMP_DATA_CENTER        = "us8"
+MAILCHIMP_EMAIL_LIST_ID = "48da2c2ea4"
+
+
 STRIPE_SECRET_KEY = "sk_test_ieC1NVzyI7aQLqhlk4qFd3pA001kPqBlMt"
-STRIPE_PUB_KEY = "pk_test_v4ND5Ox2C9Aypc9iIfYtc8HS00Je7Wv8AI"
+STRIPE_PUB_KEY    = "pk_test_v4ND5Ox2C9Aypc9iIfYtc8HS00Je7Wv8AI"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
